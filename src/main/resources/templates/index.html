@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,6 +8,26 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Index html</h1>
+
+<div>
+    <form method="post">
+        <input type="text" name="text" placeholder="Введите сообщение">
+        <input type="text" name="tag" placeholder="Тэг">
+        <input type="submit" value="Добавить">
+    </form>
+</div>
+
+<form action="filter" method="post">
+    <input type="text" name="filter" >
+    <input type="submit" value="Найти">
+</form>
+
+<div>Список сообщений:</div>
+<div th:each="message : ${messages}">
+    <b th:text="${message.id}"></b>
+    <span th:text="${message.text}"></span>
+    <i th:text="${message.tag}"></i>
+</div>
+
 </body>
 </html>
