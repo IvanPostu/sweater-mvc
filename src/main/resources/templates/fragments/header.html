@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+
+  <style th:fragment="header-css">
+            nav h2{
+                color: red;
+            }
+  </style>
+
 </head>
 <body>
-$END$
+<div th:fragment="header">
+  <nav>
+    <h2>This is header</h2>
+  </nav>
+</div>
 </body>
 </html>
