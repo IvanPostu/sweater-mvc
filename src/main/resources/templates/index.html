@@ -9,10 +9,19 @@
 </head>
 <body>
 
+<!--Hello [[${#httpServletRequest.remoteUser}]]!-->
+<h1 th:text="${#httpServletRequest.remoteUser}? 'Hello: ' + ${#httpServletRequest.remoteUser} "></h1>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+
+<br><br><br>
+
 <div>
     <form method="post">
         <input type="text" name="text" placeholder="Введите сообщение">
         <input type="text" name="tag" placeholder="Тэг">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <input type="submit" value="Добавить">
     </form>
 </div>
