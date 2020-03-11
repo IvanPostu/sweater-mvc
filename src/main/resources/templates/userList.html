@@ -1,0 +1,40 @@
+
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/mainLayout :: layout(~{::title}, ~{::section})}">
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">-->
+
+
+
+<title>User List</title>
+
+
+<section>
+  <table>
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <div th:if= "${users != null}">
+      <tr th:each="usr : ${users}">
+        <td th:text="${usr.username}"></td>
+        <td><span th:each="role, roleIter : ${usr.roles}"
+                  th:text="${role} + (${roleIter.index >= usr.roles.size()-1}? ' ' : ', ')"></span></td>
+        <td>
+          <a th:href="'/user/' + ${usr.id}">Edit</a>
+        </td>
+      </tr>
+    </div>
+
+    </tbody>
+  </table>
+
+</section>
+
+
+
+</html>
