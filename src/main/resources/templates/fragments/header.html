@@ -1,19 +1,109 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-
   <style th:fragment="header-css">
-            nav h2{
-                color: red;
-            }
-  </style>
+
+  .header-menu{
+    background-color: #30336b;
+    height: 36px;
+    -webkit-box-shadow: 3px -4px 19px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px -4px 19px 0px rgba(0,0,0,0.75);
+    box-shadow: 3px -4px 19px 0px rgba(0,0,0,0.75);
+
+  }
+
+
+  .header-menu .pure-menu-link{
+    color: #dff9fb;
+  }
+
+  .header-menu .pure-menu-link:focus,
+  .header-menu .pure-menu-link:hover{
+    border: none;
+    background-color: #95a5a6;
+  }
+
+  .auth-list{
+
+  }
+
+  .auth-list .pure-menu-children{
+    background-color: #30336b;
+  }
+
+  .auth-list .parent1{
+    text-align: center;
+  }
+
+  .auth-list .pure-menu-children .pure-menu-item .pure-menu-link,
+  .auth-list .parent1{
+      width: 150px;
+  }
+
+  input[type=submit]{
+    border: none;
+    background-color: transparent;
+  }
+
+
+</style>
 
 </head>
 <body>
-<div th:fragment="header">
-  <nav>
-    <h2>This is header</h2>
-  </nav>
+
+<div th:fragment="header" >
+
+  <div class="header-menu pure-menu pure-menu-horizontal"></div>
+
+  <div class="header-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+    <a href="/" class="pure-menu-heading pure-menu-link">Sweater</a>
+
+    <ul class="pure-menu-list">
+      <li  class="pure-menu-item"><a href="/" class="pure-menu-link">Home</a></li>
+      <li class="pure-menu-item"><a href="/" class="pure-menu-link">Messages</a></li>
+      <li sec:authorize="hasAuthority('ADMIN')" class="pure-menu-item">
+        <a href="/user" class="pure-menu-link">User list</a>
+      </li>
+    </ul>
+
+    <form th:action="@{/logout}" method="post" class="d-none">
+      <input id="logoutSubmitBtnId" value="Log out" class="pure-menu-link" type="submit">
+    </form>
+
+    <ul sec:authorize="isAuthenticated()" class="pure-menu-list auth-list f-right">
+      <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+        <a href="#" sec:authentication="name" class="pure-menu-link parent1">username</a>
+        <ul class="pure-menu-children">
+          <li class="pure-menu-item"><a href="#" class="pure-menu-link">My page</a></li>
+          <li id="logoutBtn01" class="pure-menu-item"><a href="#" class="pure-menu-link">Log out</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <ul sec:authorize="isAnonymous()" class="pure-menu-list auth-list f-right">
+      <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+        <a href="#" class="pure-menu-link parent1">Guest</a>
+        <ul class="pure-menu-children">
+          <li class="pure-menu-item"><a href="/login" class="pure-menu-link">Log in</a></li>
+          <li class="pure-menu-item"><a href="/registration" class="pure-menu-link">Registration</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <script>
+
+      document.getElementById('logoutBtn01').addEventListener('click', function(){
+        document.getElementById('logoutSubmitBtnId').click();
+      });
+
+    </script>
+  </div>
+
+
+<!--  Logged user: <span sec:authentication="name">Bob</span>-->
+<!--  Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>-->
+
 </div>
 </body>
 </html>

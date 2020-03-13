@@ -10,19 +10,6 @@
 
 <section>
 
-    <span><a href="/user">User list</a></span>
-
-    <div sec:authorize="isAnonymous()">
-        <a href="/login">Log in</a>
-        <a href="/registration">Registration</a>
-    </div>
-    <div sec:authorize="isAuthenticated()">
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign out"/>
-        </form>
-    </div>
-
-    <br><br><br>
 
     <form method="post" enctype="multipart/form-data">
         <input type="text" name="text" placeholder="Введите сообщение" value="">

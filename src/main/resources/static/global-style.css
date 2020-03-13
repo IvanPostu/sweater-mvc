@@ -1,0 +1,38 @@
+
+body{
+  background-color: #ecf0f1;
+  min-height: 100%;
+  position:relative;
+}
+
+.d-none{
+  display: none;
+}
+
+.d-flex{
+  display: flex;
+}
+
+.f-left{
+  float: left;
+}
+
+.f-right{
+  float: right;
+}
+
+.my-1rem{
+  margin: 1rem 0 1rem 0;
+}
+
+.h-center{
+        left: 50%;
+        position: relative;
+        transform: translateX(-50%);
+
+}
+
+.my-container{
+  max-width: 960px;
+  margin: 0 auto;
+}
