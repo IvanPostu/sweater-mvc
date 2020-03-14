@@ -21,6 +21,8 @@ import java.util.UUID;
 @Controller
 public class HomeController {
 
+  private static final String VIEW = "home/index";
+
   @Value("${upload.path}")
   private String uploadPath;
 
@@ -33,7 +35,7 @@ public class HomeController {
     Iterable<Message> messages = messageRepository.findAll();
     model.addAttribute("messages",messages);
 
-    return "index";
+    return VIEW;
   }
 
   @PostMapping
@@ -66,7 +68,7 @@ public class HomeController {
     Iterable<Message> messages = messageRepository.findAll();
     model.addAttribute("messages",messages);
 
-    return "index";
+    return VIEW;
   }
 
   @PostMapping("filter")
@@ -77,7 +79,7 @@ public class HomeController {
     List<Message> messages = messageRepository.findByTag(filter);
     model.addAttribute("messages",messages);
 
-    return "index";
+    return VIEW;
   }
 
 }

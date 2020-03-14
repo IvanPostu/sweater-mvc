@@ -1,0 +1,18 @@
+.login-card-01,
+.login-card-02{
+
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    background: white;
+}
+
+.login-card-01 .title{
+
+    font-size: 24px;
+    text-align: center;
+    margin: 1.5rem 0 1.5rem 0;
+}
+
+#forgot-password-login{
+  margin-top: 1.5rem;
+}

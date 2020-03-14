@@ -15,12 +15,16 @@ import java.util.Collections;
 
 @Controller
 public class RegistrationController {
+
+  private static final String LOGIN = "/login";
+  private static final String REGISTRATION = "temp/auth/registration";
+
   @Autowired
   private UserRepository userRepository;
 
   @GetMapping("/registration")
   public String registration() {
-    return "registration";
+    return REGISTRATION;
   }
 
   @PostMapping("/registration")
@@ -29,7 +33,7 @@ public class RegistrationController {
 
     if (userFromDb != null) {
       model.addAttribute("message", "User exists!");
-      return "registration";
+      return REGISTRATION;
     }
 
     User user = new User();
@@ -39,6 +43,6 @@ public class RegistrationController {
     user.setRoles(Collections.singleton(Role.USER));
     userRepository.save(user);
 
-    return "redirect:/login";
+    return "redirect:" + LOGIN;
   }
 }

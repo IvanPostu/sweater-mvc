@@ -5,6 +5,15 @@ body{
   position:relative;
 }
 
+a{
+  text-decoration: none;
+  color: #3498db;
+}
+
+a:hover{
+    color: #2980b9;
+}
+
 .d-none{
   display: none;
 }
@@ -21,8 +30,24 @@ body{
   float: right;
 }
 
+.m-1rem{
+  margin: 1rem;
+}
+
 .my-1rem{
   margin: 1rem 0 1rem 0;
+}
+
+.mt-2rem{
+  margin-top: 2rem;
+}
+
+.p-1rem{
+  padding: 1rem;
+}
+
+.py-1rem{
+  padding: 1rem 0 1rem 0;
 }
 
 .h-center{
@@ -35,4 +60,8 @@ body{
 .my-container{
   max-width: 960px;
   margin: 0 auto;
+}
+
+.t-a-center{
+  text-align: center;
 }

@@ -5,3 +5,6 @@ target
 uploads
 pg_data
 *.log
+package-lock.json
+node_modules
+dist

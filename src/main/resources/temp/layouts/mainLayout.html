@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout (title, content, header_location)" xmlns:th="http://www.thymeleaf.org">
 <head>
 
 </head>
@@ -10,7 +10,9 @@
 
   <title th:replace="${title}">Layout Title</title>
 
-  <div th:replace="fragments/header :: header-css"></div>
+  <div th:include="${header_location}"></div>
+  
+  <link th:replace="fragments/header :: header-css">
   <link rel="stylesheet" href="/static/pure-release-1.0.1/pure-min.css">
   <link rel="stylesheet" href="/static/global-style.css">
 </head>

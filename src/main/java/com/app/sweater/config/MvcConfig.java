@@ -13,7 +13,7 @@ public class MvcConfig implements WebMvcConfigurer {
   private String uploadPath;
 
   public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/login").setViewName("login");
+    registry.addViewController("/login").setViewName("/temp/auth/login");
   }
 
   @Override
@@ -22,5 +22,6 @@ public class MvcConfig implements WebMvcConfigurer {
         .addResourceLocations("file://" + uploadPath + "/");
     registry.addResourceHandler("/static/**")
         .addResourceLocations("classpath:/static/");
+
   }
 }
