@@ -1,4 +1,4 @@
 import './style.scss'
-// import moduleName from ''
+import '@/assets/utils/main.scss'
 
 console.log('home')

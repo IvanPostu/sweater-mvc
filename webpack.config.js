@@ -77,7 +77,7 @@ module.exports = function (env, options) {
     resolve: {
       extensions: ['.js'],
       alias: {
-        // '@': path.resolve(__dirname, 'frontend'),
+        '@': path.resolve(__dirname, 'frontend'),
       }
     },
     optimization: {
