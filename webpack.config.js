@@ -6,7 +6,6 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 const glob = require('glob')
 const isDev = process.env.NODE_ENV === 'development'
-const isProd = !isDev
 
 
 
@@ -14,42 +13,14 @@ const isProd = !isDev
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const INPUT_ROOT_DIRECTORY = '/frontend'
-const OUTPUT_ROOT_DIRECTORY = '/dist'
-const HTML_OUT_DIRECTORY = '/html'
+const OUTPUT_ROOT_DIRECTORY = '/src/main/resources'
+const HTML_OUT_DIRECTORY = '/templates'
 const STATIC_OUT_DIRECTORY = '/static'
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
-
-function cssLoaders(extraLoader) {
-  const loaders = [
-    {
-      loader: MiniCssExtractPlugin.loader,
-      options: {
-        hmr: isDev,
-        reloadAll: true
-      }
-    }, 'css-loader'
-  ]
-
-  if (extraLoader) {
-    loaders.push(extraLoader)
-  }
-
-  return loaders
-}
-
-function sourceFileSeparator(filePath) {
-  let newPath = new String(filePath)
-
-  newPath = newPath.replace('./frontend/', '')
-  const str = newPath.substr(newPath.lastIndexOf('/') + 1) + '$';
-  newPath = newPath.replace(new RegExp(str), '');
-
-  return newPath
-}
 
 module.exports = function (env, options) {
 
@@ -59,7 +30,7 @@ module.exports = function (env, options) {
 
   let entryPaths = jsSrcFiles
   entryPaths = entryPaths
-    .reduce((result, item) => (result[item.replace(INPUT_ROOT_DIRECTORY, STATIC_OUT_DIRECTORY)] = item,
+    .reduce((result, item) => (result[item.replace(INPUT_ROOT_DIRECTORY, '')] = item,
       result), {})
   console.log(entryPaths)
 
@@ -79,13 +50,35 @@ module.exports = function (env, options) {
     )
   }
 
+  //Specific method
+  const pathToFilename = (path) => (
+    path.substring(1, path.length)
+  )
+
+  // ==========================================================================================
+  // ==========================================================================================
+  // ==========================================================================================
+  // ==========================================================================================
+  // ==========================================================================================
+  // ==========================================================================================
+  // ==========================================================================================
+  // ==========================================================================================
+  // ==========================================================================================
+  // ==========================================================================================
+
 
   return {
     mode: 'production',
     entry: entryPaths,
     output: {
-      filename: '[name]',
+      filename: pathToFilename(STATIC_OUT_DIRECTORY + '/js/[name]'),
       path: __dirname + OUTPUT_ROOT_DIRECTORY
+    },
+    resolve: {
+      extensions: ['.js'],
+      alias: {
+        // '@': path.resolve(__dirname, 'frontend'),
+      }
     },
     optimization: {
       splitChunks: {
@@ -100,25 +93,50 @@ module.exports = function (env, options) {
       ...htmlWebpackPluginArray,
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[hash].[hash].css'
+        filename: pathToFilename(STATIC_OUT_DIRECTORY + '/css/[contenthash].[hash].css')
       })
     ],
     module: {
       rules: [
         {
+          test: /\.scss$/,
+          use: [
+            'style-loader',
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: { sourceMap: isDev }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: isDev,
+
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: isDev }
+            }
+          ]
+        },
+        {
           test: /\.css$/,
-          use: cssLoaders()
+          use: [
+            'style-loader',
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: { sourceMap: isDev }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: isDev,
 
-        },
-        {
-          test: /\.less$/,
-          use: cssLoaders('less-loader')
-
-        },
-        {
-          test: /\.s[ac]ss$/,
-          use: cssLoaders('sass-loader')
-
+              }
+            }
+          ]
         },
         {
           test: /\.js$/,
