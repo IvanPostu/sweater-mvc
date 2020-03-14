@@ -63,17 +63,22 @@ module.exports = function (env, options) {
       result), {})
   console.log(entryPaths)
 
+  const htmlWebpackPluginArray = []
 
-  const htmlWebpackPluginArray = jsSrcFiles.map(item => (
-    new HtmlWebpackPlugin({
-      chunks: [item],
-      template: item.replace('.js', '.html'),
-      filename: item.replace('.js', '.html').replace(INPUT_ROOT_DIRECTORY, HTML_OUT_DIRECTORY),
-      minify: {
-        collapseWhitespace: true
-      }
-    })
-  ))
+  for (var key of Object.keys(entryPaths)) {
+    htmlWebpackPluginArray.push(
+      new HtmlWebpackPlugin({
+        chunks: [key],
+        template: entryPaths[key].replace('.js', '.html'),
+        filename: entryPaths[key].replace('.js', '.html')
+          .replace(INPUT_ROOT_DIRECTORY, HTML_OUT_DIRECTORY),
+        minify: {
+          collapseWhitespace: true
+        }
+      })
+    )
+  }
+
 
   return {
     mode: 'production',
