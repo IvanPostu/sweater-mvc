@@ -16,6 +16,8 @@ public class MvcConfig implements WebMvcConfigurer {
     registry.addViewController("/login").setViewName("/temp/auth/login");
   }
 
+
+
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/img/**")

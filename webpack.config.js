@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
+// const CopyWebpackPlugin = require('copy-webpack-plugin')
 const glob = require('glob')
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -13,16 +14,14 @@ const isDev = process.env.NODE_ENV === 'development'
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const INPUT_ROOT_DIRECTORY = '/frontend'
-const OUTPUT_ROOT_DIRECTORY = '/src/main/resources'
-const HTML_OUT_DIRECTORY = '/templates'
-const STATIC_OUT_DIRECTORY = '/static'
+const OUTPUT_ROOT_DIRECTORY = '/src/main/resources/static'
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
 
-module.exports = function (env, options) {
+module.exports = function /*(env, options)*/() {
 
 
   const jsSrcFiles = glob
@@ -42,18 +41,14 @@ module.exports = function (env, options) {
         chunks: [key],
         template: entryPaths[key].replace('.js', '.html'),
         filename: entryPaths[key].replace('.js', '.html')
-          .replace(INPUT_ROOT_DIRECTORY, HTML_OUT_DIRECTORY),
+          .replace(INPUT_ROOT_DIRECTORY, ''),
         minify: {
           collapseWhitespace: true
-        }
+        },
       })
     )
   }
 
-  //Specific method
-  const pathToFilename = (path) => (
-    path.substring(1, path.length)
-  )
 
   // ==========================================================================================
   // ==========================================================================================
@@ -71,7 +66,7 @@ module.exports = function (env, options) {
     mode: 'production',
     entry: entryPaths,
     output: {
-      filename: pathToFilename(STATIC_OUT_DIRECTORY + '/js/[name]'),
+      filename: 'js/[name]',
       path: __dirname + OUTPUT_ROOT_DIRECTORY
     },
     resolve: {
@@ -92,12 +87,17 @@ module.exports = function (env, options) {
     plugins: [
       ...htmlWebpackPluginArray,
       new CleanWebpackPlugin(),
+
       new MiniCssExtractPlugin({
-        filename: pathToFilename(STATIC_OUT_DIRECTORY + '/css/[contenthash].[hash].css')
+        filename: 'css/[contenthash].[hash].css'
       })
     ],
     module: {
       rules: [
+        {
+          test: /\.html$/,
+          loader: 'html-loader'
+        },
         {
           test: /\.scss$/,
           use: [

@@ -21,7 +21,7 @@ import java.util.UUID;
 @Controller
 public class HomeController {
 
-  private static final String VIEW = "home/index";
+  private static final String VIEW = "view/home/index";
 
   @Value("${upload.path}")
   private String uploadPath;
