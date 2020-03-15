@@ -22,7 +22,7 @@
     // "editorWarning.border": "#d9ff00",
     "editorError.border": "#b80000"
   },
-  "zenMode.centerLayout": true,
+  "zenMode.centerLayout": false,
   "zenMode.hideLineNumbers": false,
   "editor.tokenColorCustomizations": {
     "textMateRules": [

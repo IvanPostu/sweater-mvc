@@ -1,4 +1,10 @@
 import './style.scss'
-import '@/assets/utils/main.scss'
+import '@/assets/main.scss'
 
 console.log('home')
+
+
+
+var z = 99
+
+
