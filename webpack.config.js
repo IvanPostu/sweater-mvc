@@ -28,6 +28,7 @@ module.exports = function /*(env, options)*/() {
 
   const jsSrcFiles = glob
     .sync('.' + INPUT_ROOT_DIRECTORY + '/**/index.js')
+    .filter(item => !item.includes('libraries'))
 
   let entryPaths = jsSrcFiles
   entryPaths = entryPaths
@@ -125,6 +126,7 @@ module.exports = function /*(env, options)*/() {
         },
         {
           test: /\.scss$/,
+          exclude: /node_modules/,
           use: [
             'style-loader',
             MiniCssExtractPlugin.loader,
@@ -147,6 +149,7 @@ module.exports = function /*(env, options)*/() {
         },
         {
           test: /\.css$/,
+          exclude: /node_modules/,
           use: [
             'style-loader',
             MiniCssExtractPlugin.loader,

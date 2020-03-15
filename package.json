@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:production": "cross-env NODE_ENV=production webpack --mode production",
-    "build:development": "cross-env NODE_ENV=development webpack --mode development"
+    "build:prod": "cross-env NODE_ENV=production webpack --mode production",
+    "build:dev": "cross-env NODE_ENV=development webpack --mode development",
+    "init:frontend-libraries": "npm i vue@2.6.10 bootstrap@4.4.0 jquery@3.4.1 --prefix ./frontend/libraries"
   },
   "browswelist": "> 0.25%, not dead",
   "keywords": [],
@@ -38,7 +39,5 @@
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
   },
-  "dependencies": {
-    "vue": "^2.6.11"
-  }
+  "dependencies": {}
 }
