@@ -20,7 +20,7 @@ public class ThymeleafConfig {
 
     ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
 
-    templateResolver.setPrefix("static/");
+    templateResolver.setPrefix("templates/");
     templateResolver.setCacheable(false);
     templateResolver.setSuffix(".html");
     templateResolver.setTemplateMode("HTML5");

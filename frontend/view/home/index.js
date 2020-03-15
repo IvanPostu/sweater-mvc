@@ -1,10 +1,20 @@
 import './style.scss'
-import '@/assets/main.scss'
 
 console.log('home')
 
 
 
-var z = 99
+new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!'
+  },
+  mounted: () => {
 
-
+  },
+  methods: {
+    imgOnErrorHandle: function (e) {
+      e.target.src = 'static/assets/images/no-image200x200.jpeg'
+    }
+  }
+})

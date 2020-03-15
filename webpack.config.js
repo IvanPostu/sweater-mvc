@@ -1,10 +1,11 @@
-const path = require('path')
+// const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserWebpackPlugin = require('terser-webpack-plugin')
-// const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const FileManagerWebpackPlugin = require('filemanager-webpack-plugin')
 const glob = require('glob')
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -14,7 +15,8 @@ const isDev = process.env.NODE_ENV === 'development'
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const INPUT_ROOT_DIRECTORY = '/frontend'
-const OUTPUT_ROOT_DIRECTORY = '/src/main/resources/static'
+const OUTPUT_ROOT_DIRECTORY = '/frontend_build'
+const RESOURCES_DIRECTORY = '/src/main/resources'
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -41,7 +43,7 @@ module.exports = function /*(env, options)*/() {
         chunks: [key],
         template: entryPaths[key].replace('.js', '.html'),
         filename: entryPaths[key].replace('.js', '.html')
-          .replace(INPUT_ROOT_DIRECTORY, ''),
+          .replace(INPUT_ROOT_DIRECTORY, '/templates'),
         minify: {
           collapseWhitespace: true
         },
@@ -66,13 +68,14 @@ module.exports = function /*(env, options)*/() {
     mode: 'production',
     entry: entryPaths,
     output: {
-      filename: 'js/[name]',
-      path: __dirname + OUTPUT_ROOT_DIRECTORY
+      filename: 'static/js/[name]',
+      path: __dirname + OUTPUT_ROOT_DIRECTORY,
+      publicPath: '/'
     },
     resolve: {
       extensions: ['.js'],
       alias: {
-        '@': path.resolve(__dirname, 'frontend'),
+        '@': __dirname + INPUT_ROOT_DIRECTORY
       }
     },
     optimization: {
@@ -87,9 +90,31 @@ module.exports = function /*(env, options)*/() {
     plugins: [
       ...htmlWebpackPluginArray,
       new CleanWebpackPlugin(),
-
+      new CopyWebpackPlugin([
+        {
+          from: __dirname + INPUT_ROOT_DIRECTORY + '/libraries',
+          to: __dirname + OUTPUT_ROOT_DIRECTORY + '/static/libraries'
+        },
+        {
+          from: __dirname + INPUT_ROOT_DIRECTORY + '/assets',
+          to: __dirname + OUTPUT_ROOT_DIRECTORY + '/static/assets'
+        }
+      ]),
+      new FileManagerWebpackPlugin({
+        onEnd: [{
+          copy: [
+            {
+              source: __dirname + OUTPUT_ROOT_DIRECTORY + '/',
+              destination: __dirname + RESOURCES_DIRECTORY + '/',
+            }
+          ],
+          // delete: [
+          //   __dirname + OUTPUT_ROOT_DIRECTORY
+          // ]
+        }]
+      }),
       new MiniCssExtractPlugin({
-        filename: 'css/[contenthash].[hash].css'
+        filename: 'static/css/[contenthash].[hash].css'
       })
     ],
     module: {

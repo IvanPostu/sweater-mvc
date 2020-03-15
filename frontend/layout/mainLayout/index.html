@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" th:fragment="layout (title, content, header_location)" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
 
 
 <head>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:replace="${title}">Layout Title</title>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title th:replace="${title}">Sweater</title>
+  <link rel="stylesheet" href="/static/libraries/bootstrap.min.css">
 </head>
 
 <body>
+
+  <div class="container">
+    <div th:replace="${content}"></div>
+  </div>
+
+
+  <script src="/static/libraries/jquery.min.js"></script>
+  <script src="/static/libraries/popper.min.js"></script>
+  <script src="/static/libraries/bootstrap.min.js"></script>
+  <!-- <script src="/static/libraries/vue.min.js"></script> -->
+  <script src="/static/libraries/vue.js"></script>
 
 </body>
 

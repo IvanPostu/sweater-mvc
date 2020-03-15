@@ -10,3 +10,4 @@ node_modules
 dist
 src/main/resources/static/*
 src/main/resources/mytemplates/*
+frontent_build

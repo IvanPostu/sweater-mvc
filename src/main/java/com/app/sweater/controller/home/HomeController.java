@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@RequestMapping(value = "/")
 public class HomeController {
 
   private static final String VIEW = "view/home/index";
@@ -29,17 +32,27 @@ public class HomeController {
   @Autowired
   MessageRepository messageRepository;
 
-  @GetMapping
-  public String home(Model model){
+  @GetMapping(value = {"", "home"})
+  public String home(
+      @RequestParam(required = false, defaultValue = "") String filter,
+      Model model){
 
-    Iterable<Message> messages = messageRepository.findAll();
-    model.addAttribute("messages",messages);
+    if(StringUtils.isEmpty(filter)){
+      Iterable<Message> messages = messageRepository.findAll();
+      model.addAttribute("messages",messages);
+    }else{
+      List<Message> messages = messageRepository.findByTag(filter);
+      model.addAttribute("messages",messages);
+      model.addAttribute("filter", filter);
+    }
+
+
 
     return VIEW;
   }
 
-  @PostMapping
-  public String add(
+  @PostMapping("home")
+  public String addMessage(
       @AuthenticationPrincipal User user,
       @RequestParam String text,
       @RequestParam String tag,
@@ -71,15 +84,6 @@ public class HomeController {
     return VIEW;
   }
 
-  @PostMapping("filter")
-  public String filter(@RequestParam String filter, Model model){
 
-
-
-    List<Message> messages = messageRepository.findByTag(filter);
-    model.addAttribute("messages",messages);
-
-    return VIEW;
-  }
 
 }
