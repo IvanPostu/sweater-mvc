@@ -21,7 +21,22 @@ const RESOURCES_DIRECTORY = '/src/main/resources'
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+const staticLibraries = `
 
+  vue.min.js|
+  vue.js|
+  jquery.min.js|
+  jquery.js|
+  bootstrap.min.js|
+  bootstrap.js|
+  bootstrap.bundle.min.js|
+  bootstrap.bundle.js
+  
+`.replace(/\s/g, '')
+
+console.log(staticLibraries)
+
+//(vue.min.js|vue.js|jquery.min.js|jquery.js|bootstrap.min.js|bootstrap.js|bootstrap.bundle.min.js|bootstrap.bundle.js)
 
 module.exports = function /*(env, options)*/() {
 
@@ -46,21 +61,18 @@ module.exports = function /*(env, options)*/() {
         filename: entryPaths[key].replace('.js', '.html')
           .replace(INPUT_ROOT_DIRECTORY, '/templates'),
         minify: {
-          collapseWhitespace: true
+          collapseWhitespace: true,
+          removeComments: true,
+          removeRedundantAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          useShortDoctype: true
         },
       })
     )
   }
 
 
-  // ==========================================================================================
-  // ==========================================================================================
-  // ==========================================================================================
-  // ==========================================================================================
-  // ==========================================================================================
-  // ==========================================================================================
-  // ==========================================================================================
-  // ==========================================================================================
   // ==========================================================================================
   // ==========================================================================================
 
@@ -70,8 +82,7 @@ module.exports = function /*(env, options)*/() {
     entry: entryPaths,
     output: {
       filename: 'static/js/[name]',
-      path: __dirname + OUTPUT_ROOT_DIRECTORY,
-      publicPath: '/'
+      path: __dirname + OUTPUT_ROOT_DIRECTORY
     },
     resolve: {
       extensions: ['.js'],
@@ -80,9 +91,7 @@ module.exports = function /*(env, options)*/() {
       }
     },
     optimization: {
-      splitChunks: {
-        chunks: 'all',
-      },
+      minimize: true,
       minimizer: [
         new OptimizeCssAssetsWebpackPlugin(),
         new TerserWebpackPlugin()
@@ -92,10 +101,6 @@ module.exports = function /*(env, options)*/() {
       ...htmlWebpackPluginArray,
       new CleanWebpackPlugin(),
       new CopyWebpackPlugin([
-        {
-          from: __dirname + INPUT_ROOT_DIRECTORY + '/libraries',
-          to: __dirname + OUTPUT_ROOT_DIRECTORY + '/static/libraries'
-        },
         {
           from: __dirname + INPUT_ROOT_DIRECTORY + '/assets',
           to: __dirname + OUTPUT_ROOT_DIRECTORY + '/static/assets'
@@ -115,21 +120,38 @@ module.exports = function /*(env, options)*/() {
         }]
       }),
       new MiniCssExtractPlugin({
-        filename: 'static/css/[contenthash].[hash].css'
+        filename: 'static/css/[contenthash].[hash].css',
       })
     ],
     module: {
       rules: [
         {
+          test: /\/bootstrap.min.css$/,
+          loader: 'file-loader',
+          options: {
+            name: '/static/css/[name].[ext]',
+          },
+        },
+        {
+          test: new RegExp(`\\/(${staticLibraries})$`),
+          // test: /\/(vue.min.js|vue.js|jquery.min.js|jquery.js|bootstrap.min.js|bootstrap.js|bootstrap.bundle.min.js|bootstrap.bundle.js)$/,
+
+          loader: 'file-loader',
+          options: {
+            name: '/static/js/[name].[ext]',
+          },
+        },
+        {
           test: /\.html$/,
           loader: 'html-loader'
         },
         {
-          test: /\.scss$/,
+          test: /\.(sa|sc|c)ss$/,
           exclude: /node_modules/,
           use: [
-            'style-loader',
-            MiniCssExtractPlugin.loader,
+            {
+              loader: MiniCssExtractPlugin.loader,
+            },
             {
               loader: 'css-loader',
               options: { sourceMap: isDev }
@@ -144,25 +166,6 @@ module.exports = function /*(env, options)*/() {
             {
               loader: 'sass-loader',
               options: { sourceMap: isDev }
-            }
-          ]
-        },
-        {
-          test: /\.css$/,
-          exclude: /node_modules/,
-          use: [
-            'style-loader',
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: { sourceMap: isDev }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: isDev,
-
-              }
             }
           ]
         },
@@ -192,6 +195,10 @@ module.exports = function /*(env, options)*/() {
               ]
             }
           }
+        },
+        {
+          test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+          loader: 'file-loader',
         },
       ]
     }
