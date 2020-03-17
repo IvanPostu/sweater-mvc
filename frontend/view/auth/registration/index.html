@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::main#registration_form_id} )}">
+  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::main#registration_form_id}, ~{::script}  )}">
 
 <title>Registration to Sweater</title>
 
@@ -32,7 +32,7 @@
               </th:block>
 
 
-              <th:block th:replace="::inputBlock('emailAddress','text','email_address','E-Mail Address: ')">
+              <th:block th:replace="::inputBlock('email','email','email_address','E-Mail Address: ')">
               </th:block>
 
 
@@ -50,12 +50,10 @@
                   Register
                 </button>
               </div>
-
+            </form>
           </div>
-          </form>
         </div>
       </div>
-    </div>
     </div>
 
   </main>

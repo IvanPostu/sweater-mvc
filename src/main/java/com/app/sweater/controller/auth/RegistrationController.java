@@ -1,50 +1,50 @@
 package com.app.sweater.controller.auth;
 
 
-import com.app.sweater.domain.Role;
 import com.app.sweater.domain.User;
-import com.app.sweater.persistence.UserRepository;
+import com.app.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Collections;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value = "/registration")
 public class RegistrationController {
 
-  private static final String LOGIN = "login";
   private static final String REGISTRATION = "view/auth/registration/index";
 
   @Autowired
-  private UserRepository userRepository;
+  private UserService userService;
 
-  @GetMapping()
+  @GetMapping("/registration")
   public String registration() {
     return REGISTRATION;
   }
 
-  @PostMapping()
-  public String addUser(@RequestParam String username, @RequestParam String password, Model model) {
-    User userFromDb = userRepository.findByUsername(username);
+  @PostMapping(value = "/registration")
+  public String addUser(User user, String firstname, String lastname, Model model) {
 
-    if (userFromDb != null) {
+    if (!userService.addUser(user)) {
       model.addAttribute("message", "User exists!");
       return REGISTRATION;
     }
 
-    User user = new User();
-    user.setUsername(username);
-    user.setPassword(password);
-    user.setActive(true);
-    user.setRoles(Collections.singleton(Role.USER));
-    userRepository.save(user);
 
-    return "redirect:/" + LOGIN;
+
+    return "redirect:/login";
   }
+
+  @RequestMapping(method = RequestMethod.GET, value = "/activate/{code}")
+  public String activate(Model model, @PathVariable String code){
+
+    boolean isActivated = userService.activateUser(code);
+
+    if(isActivated){
+      model.addAttribute("activationAccountMessage", "User successfully activated");
+    }
+
+    return "view/auth/login/index";
+  }
+
+
 }

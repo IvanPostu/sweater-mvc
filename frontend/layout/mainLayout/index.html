@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="layout (title, content, j_script)" xmlns:th="http://www.thymeleaf.org">
 
 
 <head>
@@ -22,8 +22,9 @@
     <div th:replace="${content}"></div>
   </div>
 
-  <div th:replace="fragment/staticLibraries/index :: staticjslibs"></div>
-  <script th:replace="~{fragment/headerNavbar/index :: script}"></script>
+  <th:block th:replace="fragment/staticLibraries/index :: staticjslibs"></th:block>
+  <th:block th:replace="~{fragment/headerNavbar/index :: script}"></th:block>
+  <th:block th:replace="${j_script}"></th:block>
 
 </body>
 

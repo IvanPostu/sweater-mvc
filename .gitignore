@@ -1,7 +1,14 @@
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+!.mvn/wrapper/maven-wrapper.jar
 *.class
 *.jar
 target
-.idea
 .vscode
 uploads
 pg_data
@@ -14,3 +21,5 @@ src/main/resources/static
 src/main/resources/templates
 frontend_build
 frontend/libraries
+
+env.sh
