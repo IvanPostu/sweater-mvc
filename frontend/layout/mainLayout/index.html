@@ -3,9 +3,8 @@
 
 
 <head>
-
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title th:replace="${title}">Sweater</title>
   <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -13,17 +12,18 @@
 
 <body>
 
-  <div class="container">
+
+  <nav th:include="fragment/headerNavbar/index :: header" id="headerNavbar"
+    class="navbar navbar-expand-lg navbar-light bg-light">
+  </nav>
+
+
+  <div class="container mt-5">
     <div th:replace="${content}"></div>
   </div>
 
-
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/bootstrap.bundle.min.js"></script>
-  <script src="/static/js/bootstrap.min.js"></script>
-
-  <!-- For production set min version -->
-  <script src="/static/js/vue.js"></script>
+  <div th:replace="fragment/staticLibraries/index :: staticjslibs"></div>
+  <script th:replace="~{fragment/headerNavbar/index :: script}"></script>
 
 </body>
 

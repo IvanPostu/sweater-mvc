@@ -8,7 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const FileManagerWebpackPlugin = require('filemanager-webpack-plugin')
 const glob = require('glob')
 const isDev = process.env.NODE_ENV === 'development'
-
+const isProd = !isDev
 
 
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -34,9 +34,6 @@ const staticLibraries = `
   
 `.replace(/\s/g, '')
 
-console.log(staticLibraries)
-
-//(vue.min.js|vue.js|jquery.min.js|jquery.js|bootstrap.min.js|bootstrap.js|bootstrap.bundle.min.js|bootstrap.bundle.js)
 
 module.exports = function /*(env, options)*/() {
 
@@ -50,6 +47,7 @@ module.exports = function /*(env, options)*/() {
     .reduce((result, item) => (result[item.replace(INPUT_ROOT_DIRECTORY, '')] = item,
       result), {})
   console.log(entryPaths)
+  console.log(`Mode: ${isDev ? 'development' : 'production'}`)
 
   const htmlWebpackPluginArray = []
 
@@ -61,12 +59,12 @@ module.exports = function /*(env, options)*/() {
         filename: entryPaths[key].replace('.js', '.html')
           .replace(INPUT_ROOT_DIRECTORY, '/templates'),
         minify: {
-          collapseWhitespace: true,
-          removeComments: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true
+          collapseWhitespace: isProd,
+          removeComments: isProd,
+          removeRedundantAttributes: isProd,
+          removeScriptTypeAttributes: isProd,
+          removeStyleLinkTypeAttributes: isProd,
+          useShortDoctype: isProd
         },
       })
     )
@@ -91,8 +89,8 @@ module.exports = function /*(env, options)*/() {
       }
     },
     optimization: {
-      minimize: true,
-      minimizer: [
+      minimize: isProd,
+      minimizer: isProd ? [] : [
         new OptimizeCssAssetsWebpackPlugin(),
         new TerserWebpackPlugin()
       ]
@@ -114,9 +112,6 @@ module.exports = function /*(env, options)*/() {
               destination: __dirname + RESOURCES_DIRECTORY + '/',
             }
           ],
-          // delete: [
-          //   __dirname + OUTPUT_ROOT_DIRECTORY
-          // ]
         }]
       }),
       new MiniCssExtractPlugin({
@@ -134,7 +129,6 @@ module.exports = function /*(env, options)*/() {
         },
         {
           test: new RegExp(`\\/(${staticLibraries})$`),
-          // test: /\/(vue.min.js|vue.js|jquery.min.js|jquery.js|bootstrap.min.js|bootstrap.js|bootstrap.bundle.min.js|bootstrap.bundle.js)$/,
 
           loader: 'file-loader',
           options: {
@@ -154,18 +148,20 @@ module.exports = function /*(env, options)*/() {
             },
             {
               loader: 'css-loader',
-              options: { sourceMap: isDev }
+              options: {
+              }
             },
             {
               loader: 'postcss-loader',
               options: {
-                sourceMap: isDev,
 
               }
             },
             {
               loader: 'sass-loader',
-              options: { sourceMap: isDev }
+              options: {
+                sourceMap: false
+              }
             }
           ]
         },
@@ -179,9 +175,7 @@ module.exports = function /*(env, options)*/() {
                 '@babel/preset-env'
               ]
             }
-
           }]
-
         },
         {
           test: /\.ts$/,

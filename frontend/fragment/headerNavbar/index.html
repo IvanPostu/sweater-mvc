@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+
+
+<body>
+
+  <div th:fragment="header">
+
+
+    <form th:action="@{/logout}" method="post" class="d-none">
+      <input id="logoutSubmitBtnId" value="Sign out" class="pure-menu-link" type="submit">
+    </form>
+
+
+
+    <a class="navbar-brand" href="/">Sweater</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">Messages</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+          <a class="nav-link" href="/user">User list</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a th:text="${@environment.getProperty('DEBUG')}" class="nav-link" href="/user">User list</a>
+        </li> -->
+      </ul>
+
+
+
+
+
+      <ul class="navbar-nav ml-auto">
+        <li th:with="isAuth=${#authorization.expression('isAuthenticated()')}" class="nav-item dropdown">
+          <a th:text="(${#authorization.expression('isAuthenticated()')}? ${#authentication.getPrincipal().getUsername()} : 'Guest')" 
+          href="#" class="nav-link dropdown-toggle" role="button"
+            data-toggle="dropdown" data-target="#auth-dropdown-menu_00134" aria-controls="auth-dropdown-menu_00134"
+            aria-haspopup="true" aria-expanded="false">
+          </a>
+
+
+          <div th:if="${isAuth}" id="auth-dropdown-menu_00134" role="menu" 
+          class="dropdown-menu dropdown-menu-right dropdown-default"
+          aria-labelledby="auth-dropdown-menu_00134">
+            <a class="dropdown-item" href="#">My page</a>
+            <a v-on:click="logoutEvent" class="dropdown-item" href="#">Sign out</a>
+          </div>
+
+
+          <div th:if="${!isAuth}" id="auth-dropdown-menu_00134" role="menu"
+            class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="auth-dropdown-menu_00134">
+            <a class="dropdown-item" href="/login">Sign in</a>
+            <a class="dropdown-item" href="/registration">Registration</a>
+          </div>
+
+
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+</body>
+
+
+
+
+</html>

@@ -30,8 +30,6 @@ import 'jquery/dist/jquery.js'
 
 import './style.scss'
 
-console.log('main layout work corectly')
-
 
 // new Vue({
 //   el: '#app',

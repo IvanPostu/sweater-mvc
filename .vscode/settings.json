@@ -4,7 +4,7 @@
   "editor.codeLens": false,
   "editor.cursorBlinking": "smooth",
   "editor.cursorStyle": "line",
-  "editor.fontSize": 14,
+  "editor.fontSize": 13,
   "editor.fontFamily": "Fira Code Medium",
   "editor.fontLigatures": true,
   "editor.formatOnPaste": true,
@@ -15,7 +15,7 @@
   "editor.detectIndentation": false,
   "editor.insertSpaces": true,
   "search.showLineNumbers": true,
-  "editor.minimap.enabled": true,
+  "editor.minimap.enabled": false,
   "workbench.colorCustomizations": {
     "editorWarning.foreground": "#ff9100",
     "editorError.foreground": "#ff0000",

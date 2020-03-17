@@ -2,6 +2,7 @@
 *.jar
 target
 .idea
+.vscode
 uploads
 pg_data
 *.log
