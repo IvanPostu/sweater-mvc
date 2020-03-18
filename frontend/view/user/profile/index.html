@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::main#login_form_id}, ~{::script} )}">
+  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::main#profile_form_id}, ~{::script} )}">
 
 <title>Sign in to Sweater</title>
 
@@ -17,18 +17,18 @@
   </div>
 
 
-  <main id="login_form_id" class="my-form">
+  <main id="profile_form_id" class="my-form">
     <div class="row justify-content-center">
       <div class="col-md-7">
         <div class="card">
-          <h4 class="card-header text-center">Sign up in to Sweater</h4>
+          <h4 th:text="'Reset settings for '+${username}" class="card-header text-center">username</h4>
           <div class="card-body">
-            <form th:action="@{/login}" method="POST">
+            <form method="POST">
 
-              <th:block th:replace="::inputBlock('username','text','user_name','Username: ')">
+              <th:block th:replace="::inputBlock('email','email','user_email','New e-mail: ')">
               </th:block>
 
-              <th:block th:replace="::inputBlock('password','password','user_password','Password: ')">
+              <th:block th:replace="::inputBlock('password','password','user_password','New password: ')">
               </th:block>
 
 
@@ -36,26 +36,21 @@
 
               <div class="col-md-6 offset-md-4">
                 <button type="submit" class="btn btn-primary btn-block">
-                  Sign in
+                  Reset settings
                 </button>
               </div>
 
-              <div class="col-md-6 offset-md-4">
+              <!-- <div class="col-md-6 offset-md-4">
                 <p class="mt-3">
                   New to sweater?
-                  <a href="/registration" class="stretched-link">Create an account.</a>
                 </p>
-              </div>
+              </div> -->
 
 
-
-              <p th:if="${activationAccountMessage!=null}" th:text="${activationAccountMessage}"
-                id="activationAccountMessage" class="mt-3 font-weight-bold text-success col-md-6 offset-md-4">
-                Lorem ipsum dolor sit amet.
-              </p>
 
               <!-- <div class="dialog-row mt-3">
-                <label th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" class="text-center redText">text</label>                   
+                <label th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+                  class="text-center redText">text</label>
               </div> -->
 
             </form>
