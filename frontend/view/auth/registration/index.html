@@ -7,10 +7,14 @@
 
 <body>
 
-  <div th:fragment="inputBlock (inputName, inputType, id, labelTitle)" class="form-group row">
+  <div th:fragment="inputBlock (inputName, inputType, id, labelTitle, error, defaultInputVal)" class="form-group row">
     <label th:text="${labelTitle}" th:for="${id}" class="col-md-4 col-form-label text-md-right"></label>
     <div class="col-md-6">
-      <input th:type="${inputType}" th:id="${id}" class="form-control" th:name="${inputName}">
+      <input th:type="${inputType}" th:id="${id}" th:class="'form-control '+(${error!=null}?'is-invalid':'')"
+        th:name="${inputName}" th:value="(${defaultInputVal!=null}?${defaultInputVal}:'')">
+      <div th:if="${error!=null}" th:text="${error}" class="invalid-feedback">
+      </div>
+
     </div>
   </div>
 
@@ -21,25 +25,34 @@
         <div class="card">
           <h4 class="card-header text-center">Registration</h4>
           <div class="card-body">
-            <form action="/registration" method="POST">
+            <form th:action="@{/registration}" method="POST">
 
 
-              <th:block th:replace=" :: inputBlock('firstname','text','first_name','Firstname: ')">
+              <th:block th:replace=" :: inputBlock('firstname','text','first_name','Firstname: ', 
+                ${null}, ${null})">
               </th:block>
 
 
-              <th:block th:replace="::inputBlock('lastname','text','last_name','Lastname: ')">
+              <th:block th:replace="::inputBlock('lastname','text','last_name','Lastname: ', 
+                ${null}, ${null})">
               </th:block>
 
 
-              <th:block th:replace="::inputBlock('email','email','email_address','E-Mail Address: ')">
+              <th:block th:replace="::inputBlock('email','email','email_address','E-Mail Address: ', 
+                ${emailError}, ${user?.getEmail()})">
               </th:block>
 
 
-              <th:block th:replace="::inputBlock('username','text','user_name','Username: ')">
+              <th:block th:replace="::inputBlock('username','text','user_name','Username: ', 
+                ${usernameError}, ${user?.getUsername()})">
               </th:block>
 
-              <th:block th:replace="::inputBlock('password','password','user_password','Password: ')">
+              <th:block th:replace="::inputBlock('password','password','user_password','Password: ', 
+                ${passwordError}, ${null})">
+              </th:block>
+
+              <th:block th:replace="::inputBlock('password2','password','user_password2','Retype password: ', 
+                ${password2Error}, ${null})">
               </th:block>
 
 

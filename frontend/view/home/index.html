@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::section}, ~{::script} )}">
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::section}, ~{::script} )}">
 
 
 
@@ -20,15 +21,28 @@
     aria-controls="collapseExample">
     Add new Message
   </a>
-  <div class="collapse" id="collapseExample">
+  <div th:class="'collapse '+(${message!=null}?' show':'')" id="collapseExample">
     <div class="form-group mt-3">
-      <form method="post" action="/home" enctype="multipart/form-data">
+      <form method="post" th:action="@{/home}" enctype="multipart/form-data">
+
         <div class="form-group">
-          <input type="text" class="form-control" name="text" placeholder="Введите сообщение" />
+          <input th:value="${message?.getText()}" type="text"
+            th:class="'form-control'+ (${textError!=null}?' is-invalid':'') " name="text" placeholder="Enter message" />
+          <div th:if="${textError!=null}" th:text="${textError}" class="invalid-feedback">
+            error message
+          </div>
         </div>
+
+
+
         <div class="form-group">
-          <input type="text" class="form-control" name="tag" placeholder="Тэг">
+          <input th:value="${message?.getTag()}" type="text"
+            th:class="'form-control'+ (${tagError!=null}?' is-invalid':'') " name="tag" placeholder="Tag">
+          <div th:if="${tagError!=null}" th:text="${tagError}" class="invalid-feedback">
+            error message
+          </div>
         </div>
+
         <div class="form-group">
           <div class="custom-file">
             <input type="file" name="file" id="customFile">
