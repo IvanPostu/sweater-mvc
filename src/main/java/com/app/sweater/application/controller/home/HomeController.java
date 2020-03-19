@@ -1,4 +1,4 @@
-package com.app.sweater.controller.home;
+package com.app.sweater.application.controller.home;
 
 import com.app.sweater.domain.Message;
 import com.app.sweater.domain.User;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.app.sweater.controller.ControllerUtils.getErrors;
+import static com.app.sweater.application.controller.ControllerUtils.getErrors;
 
 @Controller
 @RequestMapping(value = "/")

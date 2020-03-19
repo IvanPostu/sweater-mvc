@@ -1,4 +1,4 @@
-package com.app.sweater.config;
+package com.app.sweater.application.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

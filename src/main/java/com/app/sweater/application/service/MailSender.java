@@ -1,4 +1,4 @@
-package com.app.sweater.service;
+package com.app.sweater.application.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package com.app.sweater.controller.user;
+package com.app.sweater.application.controller.user;
 
 import com.app.sweater.domain.Role;
 import com.app.sweater.domain.User;
-import com.app.sweater.service.UserService;
+import com.app.sweater.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
