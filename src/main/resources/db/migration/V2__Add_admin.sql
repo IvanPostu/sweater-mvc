@@ -1,5 +1,5 @@
-insert into app_user (id, username, password, active)
-  values (1, 'admin', 'admin', true);
-
-insert into user_role (user_id, roles)
-  values (1, 'USER'), (1, 'ADMIN');
+--INSERT INTO app_user ( username, password, active)
+--  VALUES ('admin', 'admin', true) RETURNING id;
+--
+--INSERT INTO user_role (user_id, roles)
+--  VALUES (1, 'USER'), (1, 'ADMIN');

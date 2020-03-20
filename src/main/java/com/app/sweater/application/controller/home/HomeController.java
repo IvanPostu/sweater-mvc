@@ -1,8 +1,8 @@
 package com.app.sweater.application.controller.home;
 
+import com.app.sweater.application.service.MessageService;
 import com.app.sweater.domain.Message;
 import com.app.sweater.domain.User;
-import com.app.sweater.persistence.MessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +27,6 @@ import java.util.UUID;
 import static com.app.sweater.application.controller.ControllerUtils.getErrors;
 
 @Controller
-@RequestMapping(value = "/")
 public class HomeController {
 
   private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -38,28 +36,28 @@ public class HomeController {
   private String uploadPath;
 
   @Autowired
-  MessageRepository messageRepository;
+  MessageService messageService;
 
-  @GetMapping(value = {"", "home"})
+  @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
   public String home(
       @RequestParam(required = false, defaultValue = "") String filter,
       Model model){
 
     if(StringUtils.isEmpty(filter)){
-      Iterable<Message> messages = messageRepository.findAll();
-      model.addAttribute("messages",messages);
+      List<Message> messages = messageService.findAll();
+      model.addAttribute("messages", messages);
     }else{
-      List<Message> messages = messageRepository.findByTag(filter);
+      List<Message> messages = messageService.findByTag(filter);
       model.addAttribute("messages",messages);
       model.addAttribute("filter", filter);
     }
 
 
 
-    return "view/home/index";
+    return "view/home/main/index";
   }
 
-  @PostMapping("home")
+  @RequestMapping(value = {"/home"}, method = RequestMethod.POST)
   public String addMessage(
       @AuthenticationPrincipal User user,
       @Valid Message message,
@@ -73,36 +71,34 @@ public class HomeController {
     if(bindingResult.hasErrors()){
 
       Map<String, String> errorMap = getErrors(bindingResult);
-      errorMap.forEach((key, val)->model.addAttribute(key,val));
-      model.addAttribute("message", message);
+      model.mergeAttributes(errorMap);
+      List<Message> messages = messageService.findAll();
+      model.addAttribute("messages",messages);
+      return "view/home/main/index";
 
-      logger.debug("Not valid add message params, errorMap:",errorMap );
     }else{
-      if (file != null && !file.getOriginalFilename().isEmpty()) {
-        File uploadDir = new File(uploadPath);
+      saveFile(message, file);
+      model.addAttribute("message", null);
+      messageService.save(message);
+      return "redirect:/home";
+    }
+  }
 
-        if (!uploadDir.exists()) {
-          uploadDir.mkdir();
-        }
+  private void saveFile(Message message, MultipartFile file) throws IOException {
+    if (file != null && !file.getOriginalFilename().isEmpty()) {
+      File uploadDir = new File(uploadPath);
 
-        String uuidFile = UUID.randomUUID().toString();
-        String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
-        file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-        message.setFilename(resultFilename);
+      if (!uploadDir.exists()) {
+        uploadDir.mkdir();
       }
 
-      model.addAttribute("message", null);
-      messageRepository.save(message);
+      String uuidFile = UUID.randomUUID().toString();
+      String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+      file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+      message.setFilename(resultFilename);
     }
-
-
-
-    Iterable<Message> messages = messageRepository.findAll();
-    model.addAttribute("messages",messages);
-
-    return "view/home/index";
   }
 
 

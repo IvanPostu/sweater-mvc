@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::main#login_form_id}, ~{::script} )}">
+  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::main#login_form_id}, ~{::script}, _ )}">
 
 <title>Sign in to Sweater</title>
 
@@ -9,10 +9,10 @@
 
 <body>
 
-  <div th:fragment="inputBlock (inputName, inputType, id, labelTitle)" class="form-group row">
+  <div th:fragment="inputBlock (inputName, inputType, id, labelTitle, defaultVal)" class="form-group row">
     <label th:text="${labelTitle}" th:for="${id}" class="col-md-4 col-form-label text-md-right"></label>
     <div class="col-md-6">
-      <input th:type="${inputType}" th:id="${id}" class="form-control" th:name="${inputName}">
+      <input th:value="${defaultVal}" th:type="${inputType}" th:id="${id}" class="form-control" th:name="${inputName}">
     </div>
   </div>
 
@@ -25,14 +25,14 @@
           <div class="card-body">
             <form th:action="@{/login}" method="POST">
 
-              <th:block th:replace="::inputBlock('username','text','user_name','Username: ')">
+              <th:block th:replace="::inputBlock('username','text','user_name','Username: ', 
+                (${activationAccountUsername==null}?'':${activationAccountUsername}))">
               </th:block>
 
-              <th:block th:replace="::inputBlock('password','password','user_password','Password: ')">
+              <th:block th:replace="::inputBlock('password','password','user_password','Password: ', '')">
               </th:block>
 
 
-              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
               <div class="col-md-6 offset-md-4">
                 <button type="submit" class="btn btn-primary btn-block">
@@ -47,16 +47,17 @@
                 </p>
               </div>
 
+              <div class="dialog-row mt-3">
+                <label th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+                  class="text-center text-warning">text</label>
+              </div>
 
 
               <p th:if="${activationAccountMessage!=null}" th:text="${activationAccountMessage}"
-                id="activationAccountMessage" class="mt-3 font-weight-bold text-success col-md-6 offset-md-4">
-                Lorem ipsum dolor sit amet.
-              </p>
+                id="activationAccountMessage"
+                th:class="'mt-3 font-weight-bold col-md-6 offset-md-4  text-'+${activationAccountMessageType}">
 
-              <!-- <div class="dialog-row mt-3">
-                <label th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" class="text-center redText">text</label>                   
-              </div> -->
+              </p>
 
             </form>
 

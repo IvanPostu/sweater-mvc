@@ -1,14 +1,14 @@
 <html xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::section}, ~{::script} )}">
+  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::section#userMessagesLayoutID}, ~{::script}, _ )}">
 
 
 
-<title>Home - Index</title>
+<title>User - Messages</title>
 
 
-<section id="homepageID">
+<section id="userMessagesLayoutID">
 
-  <div class="form-row">
+  <!-- <div class="form-row">
     <div class="form-group col-md-6">
       <form method="get" action="/home" class="form-inline">
         <input type="text" name="filter" class="form-control" th:value="${filter}" placeholder="Поиск по тегу">
@@ -55,10 +55,10 @@
         </div>
       </form>
     </div>
-  </div>
+  </div> -->
 
 
-  <div class="card-columns">
+  <div class="card-columns mt-2">
     <div ref="messageCards" class="card my-3" th:if="${messages != null}" th:each="message : ${messages}">
       <div th:if="${message.filename != null}">
         <img @error="imgOnErrorHandle" th:src="'/img/' + ${message.filename}" class="card-img-top">

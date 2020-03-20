@@ -1,0 +1,42 @@
+
+
+debug: true
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/test_db
+    username: postgres
+    password: qwerty
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  mail:
+    host: smtp.gmail.com
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    transport:
+      protocol: smtps
+    port: 465
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+    default-encoding: UTF-8
+    debug: true
+  thymeleaf:
+    cache: false
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+
+security:
+  enable-csrf: true
+
+upload:
+  path: /home/ivan/PROJECTS/sweater/uploads/
+
+hostname: 127.0.0.1:8080
+

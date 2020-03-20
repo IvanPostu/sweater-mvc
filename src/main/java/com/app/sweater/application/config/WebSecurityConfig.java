@@ -2,16 +2,12 @@ package com.app.sweater.application.config;
 
 import com.app.sweater.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -25,12 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  @Bean
-  public PasswordEncoder getPasswordEncoder(){
-    return new BCryptPasswordEncoder(8);
-  }
-
-//  private static final Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -42,11 +32,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
               "/home",
               "/registration",
               "/static/**",
-              "/activate/**",
-              "/img/**").permitAll()
-          .anyRequest().authenticated()
+              "/activate/*",
+              "/img/**")
+          .permitAll()
+          .anyRequest()
+            .authenticated()
         .and()
           .formLogin()
+          .defaultSuccessUrl("/home", true)
           .loginPage("/login")
           .permitAll()
         .and()
@@ -57,16 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
 
-  public AuthenticationProvider daoAuthenticationProvider() {
-    DaoAuthenticationProvider impl = new DaoAuthenticationProvider();
-    impl.setUserDetailsService(userService);
-    impl.setPasswordEncoder(passwordEncoder);
-    return impl ;
-  }
-
-
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.authenticationProvider(daoAuthenticationProvider());
+    auth.userDetailsService(userService)
+        .passwordEncoder(passwordEncoder);
   }
 }
