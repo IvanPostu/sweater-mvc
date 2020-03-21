@@ -23,8 +23,7 @@ const RESOURCES_DIRECTORY = '/src/main/resources'
 
 const staticLibraries = `
 
-  vue.min.js|
-  vue.js|
+
   jquery.min.js|
   jquery.js|
   bootstrap.min.js|
@@ -51,7 +50,7 @@ module.exports = function /*(env, options)*/() {
 
   const htmlWebpackPluginArray = []
 
-  for (var key of Object.keys(entryPaths)) {
+  for (let key of Object.keys(entryPaths)) {
     htmlWebpackPluginArray.push(
       new HtmlWebpackPlugin({
         chunks: [key],
@@ -106,6 +105,10 @@ module.exports = function /*(env, options)*/() {
       ]),
       new FileManagerWebpackPlugin({
         onEnd: [{
+          delete: [
+            __dirname + RESOURCES_DIRECTORY + '/static',
+            __dirname + RESOURCES_DIRECTORY + '/templates'
+          ],
           copy: [
             {
               source: __dirname + OUTPUT_ROOT_DIRECTORY + '/',

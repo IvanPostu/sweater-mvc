@@ -14,9 +14,9 @@
 <body>
 
 
-  <nav th:include="fragment/headerNavbar/index :: header" id="headerNavbar"
-    class="navbar navbar-expand-lg navbar-light bg-light">
-  </nav>
+  <th:block th:replace="fragment/headerNavbar/index :: header">
+  </th:block>
+
 
 
   <div class="container mt-5">

@@ -2,15 +2,16 @@ package com.app.sweater.application.controller.auth;
 
 
 import com.app.sweater.application.controller.ControllerUtils;
-import com.app.sweater.application.service.exceptions.UserNotActivatedException;
-import com.app.sweater.domain.User;
 import com.app.sweater.application.service.UserService;
+import com.app.sweater.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -114,26 +115,6 @@ public class RegistrationController {
 
   }
 
-  @RequestMapping(method = RequestMethod.GET, value = "/activate/{code}")
-  public String activate(
-      @PathVariable ("code") String code,
-      final RedirectAttributes redirectAttributes
-      ) {
-
-
-    try{
-      String username =userService.activateUserAndReturnUsername(code);
-      redirectAttributes.addFlashAttribute("activationAccountUsername", username);
-      redirectAttributes.addFlashAttribute("activationAccountMessage", "Account has been activated.");
-      redirectAttributes.addFlashAttribute("activationAccountMessageType", "success");
-    }catch(UserNotActivatedException e){
-      redirectAttributes.addFlashAttribute("activationAccountMessage", "Activation link is not valid.");
-      redirectAttributes.addFlashAttribute("activationAccountMessageType", "danger");
-    }
-
-
-    return "redirect:/login";
-  }
 
 
 }

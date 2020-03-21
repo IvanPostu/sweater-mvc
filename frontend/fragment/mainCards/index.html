@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+
+</head>
+
+
+<body>
+
+  <div id="mainCardsID" th:fragment="mainCards( messages )" class="card-columns">
+    <div class="card my-3" th:if="${messages != null}" th:each="message : ${messages}">
+      <div th:if="${message.filename != null}">
+        <img th:src="'/img/' + ${message.filename}" class="mainCardImg mw-100 card-img-top">
+      </div>
+      <div th:if="${message.filename == null}">
+        <img src="/static/assets/images/no-image200x200.jpeg" class="mainCardImg mw-100 card-img-top">
+      </div>
+      <div class="m-2">
+        <p th:text="${message.text}" class="card-text"></p>
+        <p th:text="${message.tag}" class="card-text"></p>
+      </div>
+      <div th:text="${message.getAuthorName()}" class="card-footer text-muted">
+      </div>
+    </div>
+
+  </div>
+
+
+</body>
+
+
+
+
+</html>

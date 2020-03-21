@@ -1,33 +1,33 @@
-create sequence hibernate_sequence start 1 increment 1;
+CREATE SEQUENCE hibernate_sequence start 1 increment 1;
 
-create table message (
-    id BIGSERIAL not null,
-    filename varchar(255),
-    tag varchar(255),
-    text varchar(2048) not null,
-    user_id int8,
-    primary key (id)
+CREATE TABLE message (
+    id BIGSERIAL NOT NULL,
+    filename VARCHAR(255),
+    tag VARCHAR(255),
+    text VARCHAR(2048) NOT NULL,
+    user_id INT8,
+    PRIMARY KEY (id)
 );
 
-create table user_role (
-    user_id int8 not null,
-    roles varchar(255)
+CREATE TABLE user_role (
+    user_id INT8 NOT NULL,
+    roles VARCHAR(255)
 );
 
-create table app_user (
-    id BIGSERIAL not null,
-    activation_code varchar(255),
-    active boolean not null,
-    email varchar(255),
-    password varchar(255) not null,
-    username varchar(255) not null,
-    primary key (id)
+CREATE TABLE app_user (
+    id BIGSERIAL NOT NULL,
+    activation_code VARCHAR(255),
+    active boolean NOT NULL,
+    email VARCHAR(255),
+    password VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
 );
 
-alter table if exists message
-    add constraint message_user_fk
-    foreign key (user_id) references app_user;
+ALTER TABLE IF EXISTS message
+    ADD CONSTRAINT message_user_fk
+    FOREIGN KEY (user_id) REFERENCES app_user;
 
-alter table if exists user_role
-    add constraint user_role_user_fk
-    foreign key (user_id) references app_user;
+ALTER TABLE IF EXISTS user_role
+    ADD CONSTRAINT user_role_fk
+    FOREIGN KEY (user_id) REFERENCES app_user;

@@ -16,9 +16,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import 'bootstrap/dist/js/bootstrap.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
 
-import 'vue/dist/vue.min.js'
-import 'vue/dist/vue.js'
-
 import 'jquery/dist/jquery.min.js'
 import 'jquery/dist/jquery.js'
 
@@ -29,11 +26,3 @@ import 'jquery/dist/jquery.js'
 
 
 import './style.scss'
-
-
-// new Vue({
-//   el: '#app',
-//   data: {
-//     message: 'Hello Vue!'
-//   }
-// })

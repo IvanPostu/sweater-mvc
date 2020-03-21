@@ -29,7 +29,7 @@ public class MessageServiceImpl implements MessageService {
 
   @Override
   public List<Message> findAllFromSpecificAuthor(String username) {
-    return messageRepository.findAll();
+    return messageRepository.findAllFromSpecificAuthor(username);
   }
 
   @Override

@@ -12,10 +12,9 @@
 
 
 
-  <div th:fragment="header">
+  <nav th:fragment="header" id="headerNavbar" class="navbar navbar-expand-lg navbar-light bg-light">
 
-    <form th:action="@{/logout}" method="post" class="d-none">
-      <input id="logoutSubmitBtnId" type="submit">
+    <form id="logoutSubmitId" th:action="@{/logout}" method="post" class="d-none">
     </form>
 
     <a class="navbar-brand" href="/">Sweater</a>
@@ -64,7 +63,7 @@
           class="dropdown-menu dropdown-menu-right dropdown-default"
           aria-labelledby="auth-dropdown-menu_00134">
             <a class="dropdown-item" href="#">My page</a>
-            <a v-on:click="logoutEvent" class="dropdown-item" href="#">Sign out</a>
+            <a id="signOutBtnOnNavbar" class="dropdown-item" href="#">Sign out</a>
           </div>
 
 
@@ -72,14 +71,14 @@
             class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="auth-dropdown-menu_00134">
             <a class="dropdown-item" href="/login">Sign in</a>
             <a class="dropdown-item" href="/registration">Registration</a>
-          </div>
+          </nav>
 
 
         </li>
       </ul>
 
     </div>
-  </div>
+  </nav>
 
 </body>
 

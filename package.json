@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "bootstrap": "^4.4.0",
-    "jquery": "^3.4.1",
-    "vue": "^2.6.10"
+    "jquery": "^3.4.1"
   }
 }

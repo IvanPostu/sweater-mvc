@@ -11,7 +11,7 @@
     <label th:text="${labelTitle}" th:for="${id}" class="col-md-4 col-form-label text-md-right"></label>
     <div class="col-md-6">
       <input th:type="${inputType}" th:id="${id}" th:class="'form-control '+(${error!=null}?'is-invalid':'')"
-        th:name="${inputName}" th:value="(${defaultInputVal!=null}?${defaultInputVal}:'')">
+        th:name="${inputName}" th:value="(${defaultInputVal!=null}?${defaultInputVal}:'')" autocomplete="off">
       <div th:if="${error!=null}" th:text="${error}" class="invalid-feedback">
       </div>
 

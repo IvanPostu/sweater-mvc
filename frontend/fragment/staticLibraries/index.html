@@ -10,11 +10,12 @@
   <th:block th:with="isDebug=${@environment.getProperty('debug')}" th:fragment="staticjslibs">
 
     <script type="text/javascript" th:src="(isDebug? '/static/js/jquery.js' : '/static/js/jquery.min.js')"></script>
+
     <script type="text/javascript"
       th:src="(isDebug? '/static/js/bootstrap.bundle.js' : '/static/js/bootstrap.bundle.min.js')"></script>
+
     <script type="text/javascript"
       th:src="(isDebug? '/static/js/bootstrap.js' : '/static/js/bootstrap.min.js')"></script>
-    <script type="text/javascript" th:src="(isDebug? '/static/js/vue.js' : '/static/js/vue.min.js')"></script>
 
   </th:block>
 
