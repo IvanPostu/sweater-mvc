@@ -63,7 +63,7 @@ module.exports = function /*(env, options)*/() {
           removeRedundantAttributes: isProd,
           removeScriptTypeAttributes: isProd,
           removeStyleLinkTypeAttributes: isProd,
-          useShortDoctype: isProd
+          useShortDoctype: isProd,
         },
       })
     )

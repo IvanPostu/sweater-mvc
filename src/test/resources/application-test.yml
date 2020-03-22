@@ -4,7 +4,7 @@ debug: true
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost/sweater_db
+    url: jdbc:postgresql://localhost/sweater_db_for_tests
     username: postgres
     password: qwerty
   jpa:
@@ -14,8 +14,8 @@ spring:
       ddl-auto: validate
   mail:
     host: smtp.gmail.com
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: q
+    password: q
     transport:
       protocol: smtps
     port: 465
@@ -27,6 +27,7 @@ spring:
     debug: true
   thymeleaf:
     cache: false
+#    mode: LEGACYHTML5
   session:
     jdbc:
       initialize-schema: always
