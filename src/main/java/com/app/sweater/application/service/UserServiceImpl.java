@@ -91,6 +91,11 @@ public class UserServiceImpl implements UserService {
     return userRepository.findAll();
   }
 
+  @Override
+  public User findByUsername(String username) {
+    return userRepository.findByUsername(username);
+  }
+
   public void saveUser(User user, String username, Map<String, String> form) {
     user.setUsername(username);
 
@@ -134,4 +139,17 @@ public class UserServiceImpl implements UserService {
       sendMessage(user);
     }
   }
+
+  public void subscribe(User currentUser, User user) {
+    user.getSubscribers().add(currentUser);
+
+    userRepository.save(user);
+  }
+
+  public void unsubscribe(User currentUser, User user) {
+    user.getSubscribers().remove(currentUser);
+
+    userRepository.save(user);
+  }
+
 }

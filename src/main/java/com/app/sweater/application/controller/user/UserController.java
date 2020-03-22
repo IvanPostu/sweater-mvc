@@ -73,4 +73,56 @@ public class UserController {
   }
 
 
+  @GetMapping("/subscribe/{username}")
+  public String subscribe(
+      @AuthenticationPrincipal User currentUser,
+      @PathVariable("username") String username
+  ) {
+    User user = userService.findByUsername(username);
+
+    if(!user.equals(currentUser)){
+      userService.subscribe(currentUser, user);
+    }
+
+    return String.format("redirect:/user-messages?username=%s", user.getUsername());
+  }
+
+  @GetMapping("unsubscribe/{username}")
+  public String unsubscribe(
+      @AuthenticationPrincipal User currentUser,
+      @PathVariable("username") String username
+  ) {
+    User user = userService.findByUsername(username);
+
+    if(!user.equals(currentUser)){
+      userService.unsubscribe(currentUser, user);
+    }
+
+    return String.format("redirect:/user-messages?username=%s", user.getUsername());
+  }
+
+  @GetMapping("/{type}/{username}/list")
+  public String userList(
+      Model model,
+      @PathVariable("username") String username,
+      @PathVariable String type
+  ) {
+    try{
+      User user = userService.findByUsername(username);
+
+      model.addAttribute("channelUser", user);
+      model.addAttribute("type", type);
+
+      if ("subscriptions".equals(type)) {
+        model.addAttribute("users", user.getSubscriptions());
+      } else {
+        model.addAttribute("users", user.getSubscribers());
+      }
+
+      return "view/user/subscriptions/index";
+    }catch(NullPointerException e){
+      return "redirect:/home";
+    }
+  }
+
 }

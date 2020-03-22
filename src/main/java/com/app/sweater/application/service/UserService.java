@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
@@ -17,8 +16,14 @@ public interface UserService extends UserDetailsService {
 
   List<User> findAll();
 
+  User findByUsername(String username);
+
   void saveUser(User user, String username, Map<String, String> form);
 
   void updateProfile(User user, String password, String email);
+
+  void subscribe(User currentUser, User user);
+
+  void unsubscribe(User currentUser, User user);
 
 }

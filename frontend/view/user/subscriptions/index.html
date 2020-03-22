@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layout/mainLayout/index :: layout(~{::title}, ~{::section#userMessagesLayoutID}, ~{::script}, _ )}">
+
+
+
+<title>User - Subscriptions</title>
+
+
+<section id="userMessagesLayoutID">
+
+  <h3 th:text="${channelUser.getUsername()}?:''"></h3>
+
+
+  <div th:text="${type} ?:''"></div>
+  <ul class="list-group">
+    <li th:each="user : ${users}" class="list-group-item">
+      <a th:href="'/user-messages?username='+${user.getUsername()}" th:text="${user.getUsername()}">
+      </a>
+    </li>
+  </ul>
+
+</section>
+
+
+</html>

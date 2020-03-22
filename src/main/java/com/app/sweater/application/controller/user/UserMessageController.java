@@ -2,6 +2,7 @@ package com.app.sweater.application.controller.user;
 
 
 import com.app.sweater.application.service.MessageService;
+import com.app.sweater.application.service.UserService;
 import com.app.sweater.domain.Message;
 import com.app.sweater.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static com.app.sweater.application.controller.ControllerUtils.getErrors;
 
@@ -26,6 +28,9 @@ public class UserMessageController {
 
   @Autowired
   private MessageService messageService;
+
+  @Autowired
+  private UserService userService;
 
   @GetMapping
   @PreAuthorize("hasAuthority('USER')")
@@ -37,8 +42,15 @@ public class UserMessageController {
   ) {
 
     if (!StringUtils.isEmpty(username)) {
-      List<Message> messages = messageService.findAllFromSpecificAuthor(username);
+      User channelUser = userService.findByUsername(username);
+      Set<Message> messages = channelUser.getMessages();
+
       model.addAttribute("messages", messages);
+      model.addAttribute("channelUser", channelUser);
+      model.addAttribute("isCurrentUser", channelUser.equals(currentUser));
+      model.addAttribute("subscriptionsCount", channelUser.getSubscriptions().size());
+      model.addAttribute("subscribersCount", channelUser.getSubscribers().size());
+
 
       if (updateMessageId != null) {
         Message message = messageService.findById(updateMessageId);
@@ -46,7 +58,7 @@ public class UserMessageController {
           if (message.getAuthor().equals(currentUser)) {
             model.addAttribute("message", message);
           }
-        }catch(NullPointerException nullPointerException){
+        }catch(NullPointerException ignored){
         }
       }
 

@@ -26,7 +26,8 @@
         <div th:if="${authorExist}" class="card-footer text-muted">
           <a th:href="'/user-messages?username='+${message.getAuthorName()}" th:text="${message.getAuthorName()}">
           </a>
-          <a th:if="${message.getAuthorName()==#authentication.getPrincipal().getUsername()}" class="btn btn-primary"
+          <a th:if="${#authorization.expression('isAuthenticated()') 
+            && message.getAuthorName()==#authentication.getPrincipal().getUsername()}" class="btn btn-primary"
             th:href="'/user-messages?username='+${message.getAuthorName()}+'&updateMessageId='+${message.getId()}">
             Edit
           </a>
