@@ -26,3 +26,6 @@ import 'jquery/dist/jquery.js'
 
 
 import './style.scss'
+import checkForDublicatesIdsInDOM from '@/jsUtils/checkForDublicatesIdsInDOM'
+
+checkForDublicatesIdsInDOM()

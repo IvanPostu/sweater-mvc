@@ -34,7 +34,7 @@ public class Message {
   private User author;
 
   public String getAuthorName(){
-    return author != null ? this.author.getUsername() : "\'anonymous\'";
+    return author != null ? this.author.getUsername() : "";
   }
 
   public Message(String text, String tag, User author) {

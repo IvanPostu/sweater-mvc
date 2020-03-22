@@ -19,11 +19,11 @@
       </div>
     </div>
 
-    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-      aria-controls="collapseExample">
+    <a class="btn btn-primary" data-toggle="collapse" href="#addMessageCollapse" role="button" aria-expanded="false"
+      aria-controls="addMessageCollapse">
       Add new Message
     </a>
-    <div th:class="'collapse '+(${message!=null}?' show':'')" id="collapseExample">
+    <div th:class="'collapse '+(${message!=null}?' show':'')" id="addMessageCollapse">
       <div class="form-group mt-3">
         <form method="post" th:action="@{/home}" enctype="multipart/form-data">
 
@@ -49,8 +49,7 @@
               </div>
               <div class="form-group mb-3">
                 <div class="custom-file">
-                  <input ref="inputImageFileRef" name="file" type="file" class="custom-file-input"
-                    id="inputImageFileID">
+                  <input name="file" type="file" class="custom-file-input" id="inputImageFileID">
 
                   <label class="custom-file-label" for="inputImageFileID" aria-describedby="inputGroupFileAddon02">
                     Choose file

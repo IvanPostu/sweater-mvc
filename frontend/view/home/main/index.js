@@ -1,23 +1,12 @@
 import './style.scss'
+import showImageToNodeById from '@/jsUtils/showImageToNodeById'
 
+$('#homepageID').ready(function () {
 
-// $(document).ready(function () {
-//   $('#inputImageFileID').on('change', event => {
-//     console.log(event)
-//     const imageFile = event.target.files[0]
+  $('#inputImageFileID').on('change', event => {
+    const imageFile = event.target.files[0]
+    showImageToNodeById(imageFile, '#addMessageViewImage')
 
-//     const reader = new FileReader();
+  })
 
-//     const imgtag = $('#addMessageViewImage')
-//     imgtag.attr('title', imageFile.name)
-
-//     reader.onload = function (event) {
-//       imgtag.attr('src', event.target.result)
-//     };
-
-//     reader.readAsDataURL(imageFile);
-
-
-//   })
-
-// })
+})

@@ -18,18 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.app.sweater.application.controller.ControllerUtils.getErrors;
 
 @Controller
 public class HomeController {
-
-  private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 
   @Value("${upload.path}")
@@ -77,29 +73,10 @@ public class HomeController {
       return "view/home/main/index";
 
     }else{
-      saveFile(message, file);
       model.addAttribute("message", null);
-      messageService.save(message);
+      messageService.save(message, file);
       return "redirect:/home";
     }
   }
-
-  private void saveFile(Message message, MultipartFile file) throws IOException {
-    if (file != null && !file.getOriginalFilename().isEmpty()) {
-      File uploadDir = new File(uploadPath);
-
-      if (!uploadDir.exists()) {
-        uploadDir.mkdir();
-      }
-
-      String uuidFile = UUID.randomUUID().toString();
-      String resultFilename = uuidFile + "." + file.getOriginalFilename();
-
-      file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-      message.setFilename(resultFilename);
-    }
-  }
-
 
 }

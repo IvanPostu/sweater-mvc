@@ -22,8 +22,16 @@
         <p th:text="${message.text}" class="card-text"></p>
         <p th:text="${message.tag}" class="card-text"></p>
       </div>
-      <div th:text="${message.getAuthorName()}" class="card-footer text-muted">
-      </div>
+      <th:block th:with="authorExist=${message.getAuthorName()!=''}">
+        <div th:if="${authorExist}" class="card-footer text-muted">
+          <a th:href="'/user-messages?username='+${message.getAuthorName()}" th:text="${message.getAuthorName()}">
+          </a>
+          <a th:if="${message.getAuthorName()==#authentication.getPrincipal().getUsername()}" class="btn btn-primary"
+            th:href="'/user-messages?username='+${message.getAuthorName()}+'&updateMessageId='+${message.getId()}">
+            Edit
+          </a>
+        </div>
+      </th:block>
     </div>
 
   </div>
