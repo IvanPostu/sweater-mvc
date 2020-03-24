@@ -103,8 +103,8 @@
     </div>
   </th:block>
 
+  <th:block th:replace="~{fragment/mainCards/index :: mainCards(${page},${paginationArray}) }"></th:block>
 
-  <th:block th:replace="~{fragment/mainCards/index :: mainCards(${messages}) }"></th:block>
 
 </section>
 

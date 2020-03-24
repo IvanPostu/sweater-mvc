@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+
+</head>
+
+
+<body>
+
+  <nav th:fragment="pagination( page, paginationArray )">
+
+    <ul class="pagination mt-3">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+
+      <li th:each="pIndex : ${paginationArray}" th:class="'page-item '+(${page.getNumber()==pIndex}?'active':'')">
+        <a th:text="${pIndex}" class="page-link" th:href="'/home?page='+${pIndex}+'&size='+${page.getSize()}"></a>
+      </li>
+
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="pagination">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Элементов на странице</a>
+      </li>
+      <li th:class="'page-item '+(${#strings.equals(page.getSize(), #strings.toString(c))}?'active':'')" th:each="c : ${ {'2', '5', '8'} }">
+        <a th:href="@{'?page='+${page.getNumber()}+'&size='+${c}}" th:text="${c}" class="page-link" tabindex="-1"></a>
+      </li>
+    </ul>
+
+
+  </nav>
+
+
+
+
+</body>
+
+
+
+
+</html>

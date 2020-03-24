@@ -73,11 +73,12 @@
     </div>
 
 
-    <th:block th:replace="~{fragment/mainCards/index :: mainCards(${messages}) }"></th:block>
+    <!-- <th:block
+      th:replace="~{fragment/mainCards/pagination/index :: pagination(${page}, ${paginationArray}, ${pIndex}) }">
+    </th:block> -->
 
 
-
-
+    <th:block th:replace="~{fragment/mainCards/index :: mainCards(${page},${paginationArray}) }"></th:block>
   </section>
 
 

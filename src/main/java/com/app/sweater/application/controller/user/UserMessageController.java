@@ -1,18 +1,27 @@
 package com.app.sweater.application.controller.user;
 
 
+import com.app.sweater.application.controller.ControllerUtils;
 import com.app.sweater.application.service.MessageService;
 import com.app.sweater.application.service.UserService;
 import com.app.sweater.domain.Message;
 import com.app.sweater.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -38,14 +47,26 @@ public class UserMessageController {
       @AuthenticationPrincipal User currentUser,
       @RequestParam(required = false, value = "username") String username,
       @RequestParam(required = false, value = "updateMessageId") Long updateMessageId,
-      Model model
+      Model model,
+      @PageableDefault(sort={"id"}, direction = Sort.Direction.DESC) Pageable pageable
   ) {
 
     if (!StringUtils.isEmpty(username)) {
       User channelUser = userService.findByUsername(username);
-      Set<Message> messages = channelUser.getMessages();
+      List<Message> messages = channelUser.getMessages();
 
-      model.addAttribute("messages", messages);
+      Long start = pageable.getOffset();
+      Long end = (start + pageable.getPageSize()) > messages.size() ? messages.size() : (start + pageable.getPageSize());
+      Page<Message> page = new PageImpl<>(messages.subList(start.intValue(), end.intValue()), pageable, messages.size());
+      final int diapason = 5;
+
+      model.addAttribute("paginationArray",
+          ControllerUtils.calculatePages(diapason,page.getNumber(),page.getTotalPages()));
+      model.addAttribute("page", page);
+
+
+
+
       model.addAttribute("channelUser", channelUser);
       model.addAttribute("isCurrentUser", channelUser.equals(currentUser));
       model.addAttribute("subscriptionsCount", channelUser.getSubscriptions().size());
@@ -115,7 +136,7 @@ public class UserMessageController {
 
 
     }catch(Exception e){
-      List<Message> messages = messageService.findAllFromSpecificAuthor(currentUser.getUsername());
+      List<Message> messages = currentUser.getMessages();
       model.addAttribute("messages", messages);
       model.addAttribute("genericError", "Update error." );
       return "view/user/messages/index";
