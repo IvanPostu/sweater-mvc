@@ -4,11 +4,11 @@ package com.app.sweater.application.controller.user;
 import com.app.sweater.application.controller.ControllerUtils;
 import com.app.sweater.application.service.MessageService;
 import com.app.sweater.application.service.UserService;
-import com.app.sweater.domain.Message;
-import com.app.sweater.domain.User;
+import com.app.sweater.domain.dto.MessageDto;
+import com.app.sweater.domain.entity.Message;
+import com.app.sweater.domain.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static com.app.sweater.application.controller.ControllerUtils.getErrors;
 
@@ -53,17 +52,12 @@ public class UserMessageController {
 
     if (!StringUtils.isEmpty(username)) {
       User channelUser = userService.findByUsername(username);
-      List<Message> messages = channelUser.getMessages();
 
-      long start = pageable.getOffset();
-      long end = (start + pageable.getPageSize()) > messages.size() ? messages.size() : (start + pageable.getPageSize());
-      Page<Message> page = new PageImpl<>(messages.subList((int) start, (int) end), pageable, messages.size());
+      Page<MessageDto> page = messageService.messageListForUser(pageable, currentUser, channelUser);
+      model.addAttribute("page", page);
       final int diapason = 5;
-
       model.addAttribute("paginationArray",
           ControllerUtils.calculatePages(diapason,page.getNumber(),page.getTotalPages()));
-      model.addAttribute("page", page);
-
 
 
 

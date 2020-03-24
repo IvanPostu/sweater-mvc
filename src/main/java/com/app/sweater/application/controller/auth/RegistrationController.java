@@ -3,7 +3,7 @@ package com.app.sweater.application.controller.auth;
 
 import com.app.sweater.application.controller.ControllerUtils;
 import com.app.sweater.application.service.UserService;
-import com.app.sweater.domain.User;
+import com.app.sweater.domain.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

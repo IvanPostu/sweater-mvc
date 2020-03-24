@@ -1,6 +1,8 @@
 package com.app.sweater.application.service;
 
-import com.app.sweater.domain.Message;
+import com.app.sweater.domain.dto.MessageDto;
+import com.app.sweater.domain.entity.Message;
+import com.app.sweater.domain.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,9 +11,11 @@ import java.io.IOException;
 
 public interface MessageService {
 
-  Page<Message> findAll(Pageable pageable);
+  Page<MessageDto> findAll(Pageable pageable, User user);
 
-  Page<Message> findByTag(String filter, Pageable pageable);
+  Page<MessageDto> findByTag(String filter, Pageable pageable, User user);
+
+  Page<MessageDto> messageListForUser(Pageable pageable, User currentUser, User author);
 
   Message findById(Long id);
 

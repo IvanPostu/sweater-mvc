@@ -1,6 +1,8 @@
 package com.app.sweater.application.service;
 
-import com.app.sweater.domain.Message;
+import com.app.sweater.domain.dto.MessageDto;
+import com.app.sweater.domain.entity.Message;
+import com.app.sweater.domain.entity.User;
 import com.app.sweater.persistence.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,13 +30,18 @@ public class MessageServiceImpl implements MessageService {
   }
 
   @Override
-  public Page<Message> findAll(Pageable pageable) {
-    return messageRepository.findAll(pageable);
+  public Page<MessageDto> findAll(Pageable pageable, User user) {
+    return messageRepository.findAll(pageable, user);
   }
 
   @Override
-  public Page<Message> findByTag(String filterTag, Pageable pageable) {
-    return messageRepository.findByTag(filterTag, pageable);
+  public Page<MessageDto> findByTag(String filterTag, Pageable pageable, User user) {
+    return messageRepository.findByTag(filterTag, pageable, user);
+  }
+
+  @Override
+  public Page<MessageDto> messageListForUser(Pageable pageable, User currentUser, User author) {
+    return messageRepository.findByUser(pageable,   author, currentUser);
   }
 
   @Override

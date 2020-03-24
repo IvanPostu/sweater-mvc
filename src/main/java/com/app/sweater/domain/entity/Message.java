@@ -1,6 +1,7 @@
-package com.app.sweater.domain;
+package com.app.sweater.domain.entity;
 
 
+import com.app.sweater.domain.util.MessageHelper;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,8 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -33,8 +36,16 @@ public class Message {
   @JoinColumn(name="user_id")
   private User author;
 
+  @ManyToMany
+  @JoinTable(
+      name = "message_likes",
+      joinColumns = { @JoinColumn(name = "message_id") },
+      inverseJoinColumns = { @JoinColumn(name = "user_id") }
+  )
+  private Set<User> likes = new HashSet<>();
+
   public String getAuthorName(){
-    return author != null ? this.author.getUsername() : "";
+    return MessageHelper.getAuthorName(author);
   }
 
   public Message(String text, String tag, User author) {

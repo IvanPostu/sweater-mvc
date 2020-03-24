@@ -1,7 +1,7 @@
 package com.app.sweater.application.service;
 
 import com.app.sweater.application.service.exceptions.UserNotActivatedException;
-import com.app.sweater.domain.User;
+import com.app.sweater.domain.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;

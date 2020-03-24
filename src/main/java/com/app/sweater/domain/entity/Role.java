@@ -1,4 +1,4 @@
-package com.app.sweater.domain;
+package com.app.sweater.domain.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,8 +1,8 @@
 package com.app.sweater.application.service;
 
 import com.app.sweater.application.service.exceptions.UserNotActivatedException;
-import com.app.sweater.domain.Role;
-import com.app.sweater.domain.User;
+import com.app.sweater.domain.entity.Role;
+import com.app.sweater.domain.entity.User;
 import com.app.sweater.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

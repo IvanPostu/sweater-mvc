@@ -17,27 +17,38 @@
     </th:block>
 
     <div id="mainCardsID" class="card-columns">
-      <div class="card my-3" th:if="${page != null}" th:each="page : ${page}">
-        <div th:if="${page.filename != null}">
-          <img th:src="'/img/' + ${page.filename}" class="mainCardImg mw-100 card-img-top" />
+      <div class="card my-3" th:if="${message != null}" th:each="message : ${page}">
+        <div th:if="${message.filename != null}">
+          <img th:src="'/img/' + ${message.filename}" class="mainCardImg mw-100 card-img-top" />
         </div>
-        <div th:if="${page.filename == null}">
+        <div th:if="${message.filename == null}">
           <img src="/static/assets/images/no-image200x200.jpeg" class="mainCardImg mw-100 card-img-top" />
         </div>
         <div class="m-2">
-          <p th:text="${page.text}" class="card-text"></p>
-          <p th:text="${page.tag}" class="card-text"></p>
+          <p th:text="${message.text}" class="card-text"></p>
+          <p th:text="${message.tag}" class="card-text"></p>
         </div>
 
-        <th:block th:with="authorExist=${page.getAuthorName()!=''}">
-          <div th:if="${authorExist}" class="card-footer text-muted">
-            <a th:href="'/user-messages?username='+${page.getAuthorName()}" th:text="${page.getAuthorName()}">
-            </a>
-            <a th:if="${#authorization.expression('isAuthenticated()') 
-            && page.getAuthorName()==#authentication.getPrincipal().getUsername()}" class="btn btn-primary"
-            th:href="'/user-messages?username='+${page.getAuthorName()}+'&updateMessageId='+${page.getId()}">
-            Edit
-            </a>
+        <th:block th:with="authorExist=${message.getAuthorName()!=''}">
+          <div th:if="${authorExist}" class="card-footer text-muted container">
+            <div class="row">
+              <a class="col align-self-center" th:href="'/user-messages?username='+${message.getAuthorName()}"
+                th:text="${message.getAuthorName()}">
+              </a>
+
+              <a class="col align-self-center" th:href="'/messages/'+${message.id}+'/like'">
+                <span th:text="${message.likes}"></span>
+                <i th:if="${message.meLiked}" class="fas fa-heart"></i>
+                <i th:if="${!message.meLiked}" class="far fa-heart"></i>
+              </a>
+
+              <a th:if="${#authorization.expression('isAuthenticated()') 
+                && message.getAuthorName()==#authentication.getPrincipal().getUsername()}" 
+                class="btn btn-primary col "
+                th:href="'/user-messages?username='+${message.getAuthorName()}+'&updateMessageId='+${message.getId()}">
+              Edit
+              </a>
+            </div>
           </div>
         </th:block>
       </div>
