@@ -55,9 +55,9 @@ public class UserMessageController {
       User channelUser = userService.findByUsername(username);
       List<Message> messages = channelUser.getMessages();
 
-      Long start = pageable.getOffset();
-      Long end = (start + pageable.getPageSize()) > messages.size() ? messages.size() : (start + pageable.getPageSize());
-      Page<Message> page = new PageImpl<>(messages.subList(start.intValue(), end.intValue()), pageable, messages.size());
+      long start = pageable.getOffset();
+      long end = (start + pageable.getPageSize()) > messages.size() ? messages.size() : (start + pageable.getPageSize());
+      Page<Message> page = new PageImpl<>(messages.subList((int) start, (int) end), pageable, messages.size());
       final int diapason = 5;
 
       model.addAttribute("paginationArray",
