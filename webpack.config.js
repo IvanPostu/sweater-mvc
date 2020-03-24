@@ -21,17 +21,17 @@ const RESOURCES_DIRECTORY = '/src/main/resources'
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-const staticLibraries = `
+// const staticLibraries = `
 
 
-  jquery.min.js|
-  jquery.js|
-  bootstrap.min.js|
-  bootstrap.js|
-  bootstrap.bundle.min.js|
-  bootstrap.bundle.js
-  
-`.replace(/\s/g, '')
+//   jquery.min.js|
+//   jquery.js|
+//   bootstrap.min.js|
+//   bootstrap.js|
+//   bootstrap.bundle.min.js|
+//   bootstrap.bundle.js
+
+// `.replace(/\s/g, '')
 
 
 module.exports = function /*(env, options)*/() {
@@ -123,21 +123,15 @@ module.exports = function /*(env, options)*/() {
     ],
     module: {
       rules: [
-        {
-          test: /\/bootstrap.min.css$/,
-          loader: 'file-loader',
-          options: {
-            name: '/static/css/[name].[ext]',
-          },
-        },
-        {
-          test: new RegExp(`\\/(${staticLibraries})$`),
 
-          loader: 'file-loader',
-          options: {
-            name: '/static/js/[name].[ext]',
-          },
-        },
+        // {
+        //   test: new RegExp(`\\/(${staticLibraries})$`),
+
+        //   loader: 'file-loader',
+        //   options: {
+        //     name: '/static/js/[name].[ext]',
+        //   },
+        // },
         {
           test: /\.html$/,
           loader: 'html-loader'
